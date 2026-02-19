@@ -22,7 +22,9 @@
       "@environment": ["src/app/environments"],
       "@environment/*": ["src/app/environments/*"],
       "@types": ["src/app/types"],
-      "@types/*": ["src/app/types/*"]
+      "@types/*": ["src/app/types/*"],
+      "@components": ["src/app/components"],
+      "@components/*": ["src/app/components/*"]
     },
   },
   "angularCompilerOptions": {

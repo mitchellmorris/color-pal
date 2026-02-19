@@ -1,0 +1,12 @@
+<h2 class="text-3xl mb-4 font-thin">My Palettes</h2>
+@if (palettes().length > 0) {
+<div class="py-4">
+  <p-dataview #dv [value]="palettes()" class="my-4">
+    <ng-template #list let-items>
+      @for (item of items; track item.id) {
+      <app-palette-row [palette]="item"></app-palette-row>
+      }
+    </ng-template>
+  </p-dataview>
+</div>
+}
