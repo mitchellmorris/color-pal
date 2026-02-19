@@ -1,0 +1,14 @@
+{
+    "workbench.colorCustomizations": {
+        "editorLineNumber.foreground": "#427a88",
+        "editor.selectionBackground": "#15c951d9",
+        "editor.selectionHighlightBackground": "#39d6af7e",
+        "statusBarItem.hoverBackground": "#e65b42",
+        "diffEditor.insertedTextBackground": "#00bb0044",
+        "diffEditor.removedTextBackground": "#ff000044",
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.findMatchBackground": "#15c9aed9",
+        "editor.findMatchHighlightBackground": "#39c9d67e",
+        "editorBracketMatch.background": "#00bb0075"
+    }
+}
