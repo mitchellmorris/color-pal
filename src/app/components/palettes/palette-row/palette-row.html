@@ -3,6 +3,6 @@
     {{ palette().name }}
   </div>
   <div class="flex md:w-1/2 justify-end">
-    buttons go here
+    <p-button label="View" icon="pi pi-eye" [rounded]="true" (onClick)="router.navigate(['palette', palette().id])" />
   </div>
 </div>

@@ -9,5 +9,9 @@ export const routes: Routes = [
     resolve: {
       palettes: palettesResolver
     }
+  },
+  {
+    path: 'palette/:paletteId',
+    loadComponent: () => import('./pages/palette/palette').then(m => m.Palette),
   }
 ];
