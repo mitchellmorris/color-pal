@@ -10,7 +10,8 @@ export type State = PalettesStateModel & EntityState<PaletteModel>;
 export const adapter = createEntityAdapter<PaletteModel>();
 
 export const initialState: State = adapter.getInitialState({
-  palette: null
+  palette: null,
+  allPalettesLoaded: false
 });
 
 export const {
@@ -20,7 +21,7 @@ export const {
 export const reducer = createReducer(
   initialState,
   on(PalettesActions.loadPalettesSuccess, (state, action) => {
-    return adapter.setAll(action.data, state);
+    return adapter.setAll(action.data, { ...state, allPalettesLoaded: true });
   }),
 );
 

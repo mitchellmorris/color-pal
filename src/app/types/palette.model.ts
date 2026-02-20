@@ -6,4 +6,5 @@ export interface PaletteModel {
 
 export interface PalettesStateModel {
   palette: PaletteModel | null;
+  allPalettesLoaded: boolean;
 }

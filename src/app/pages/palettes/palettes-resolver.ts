@@ -1,14 +1,24 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { PalettesActions, selectAllPalettes } from '@state/palettes';
-import { first, map } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { areAllPalettesLoaded, PalettesActions, selectAllPalettes } from '@state/palettes';
+import { filter, first, map, of, switchMap } from 'rxjs';
 
 export const palettesResolver: ResolveFn<boolean> = (route, state) => {
   const store = inject(Store);
-  store.dispatch(PalettesActions.loadPalettes());
-  return store.select(selectAllPalettes).pipe(
-    map(palettes => palettes.length > 0),
-    first()
-  );
+  return store.pipe(
+    select(areAllPalettesLoaded),
+    switchMap(allLoaded => {
+      if (!allLoaded) {
+        store.dispatch(PalettesActions.loadPalettes());
+        return store.pipe(
+          select(areAllPalettesLoaded),
+          filter(loaded => loaded),
+          first()
+        );
+      } else {
+        return of(true);
+      }
+    })
+  )
 };

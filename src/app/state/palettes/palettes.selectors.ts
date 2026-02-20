@@ -9,3 +9,8 @@ export const selectAllPalettes = createSelector(
   selectPalettesState,
   fromPalettes.selectAll
 );
+
+export const areAllPalettesLoaded = createSelector(
+  selectPalettesState,
+  (state) => state.allPalettesLoaded
+);
