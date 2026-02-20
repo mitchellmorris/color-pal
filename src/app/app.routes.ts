@@ -13,5 +13,9 @@ export const routes: Routes = [
   {
     path: 'palette/:paletteId',
     loadComponent: () => import('./pages/palette/palette').then(m => m.Palette),
+    loadChildren: () => import('./pages/palette/palette.routes').then(m => m.paletteRoutes),
+    resolve: {
+      palettes: palettesResolver
+    }
   }
 ];

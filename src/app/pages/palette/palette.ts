@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { LoadingWrapper } from '@components';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-palette',
   imports: [
-    LoadingWrapper
+    RouterOutlet,
   ],
   templateUrl: './palette.html',
   styleUrl: './palette.css',
