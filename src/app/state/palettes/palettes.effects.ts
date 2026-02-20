@@ -22,4 +22,19 @@ export class PalettesEffects {
       )
     );
   });
+
+  updatePalette$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PalettesActions.updatePalette),
+      exhaustMap(action =>
+        this.palettesApi.updatePalette$(action.palette).pipe(
+          map(updatedPalette => PalettesActions.updatePaletteSuccess({ palette: updatedPalette })),
+          // catchError(error => {
+          //   console.error('Error updating palette:', error);
+          //   return EMPTY; // Handle error appropriately, e.g., dispatch a failure action
+          // })
+        )
+      )
+    );
+  });
 }

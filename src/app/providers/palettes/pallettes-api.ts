@@ -17,11 +17,22 @@ export class PallettesApi {
       existingPalettes: PaletteModel[], 
       [key: string]: any 
     }>(`${this.apiUrl}/palettes`).pipe(
-      tap(response => console.log('API response:', response)), // Debug log
       map(response => response.existingPalettes),
       catchError(error => {
         console.error('Error loading palettes:', error);
         return of([]); // Return an empty array on error
+      })
+    );
+  }
+  updatePalette$(palette: PaletteModel): Observable<PaletteModel> {
+    return this.http.put<{ 
+      existingPalette: PaletteModel,
+      [key: string]: any
+     }>(`${this.apiUrl}/palette/${palette.id}`, palette).pipe(
+      map(response => response.existingPalette),
+      catchError(error => {
+        console.error('Error saving palette:', error);
+        throw error; // Rethrow the error to be handled by the caller
       })
     );
   }

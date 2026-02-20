@@ -24,8 +24,23 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
         }
       })
     ).pipe(
+      // simulate network latency
       delay(800)
-    ); // simulate network latency
+    );
+  }
+  if (req.url.match(/\/palette\/\d+/) && req.method === 'PUT') {
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          // Echo back the updated palette
+          existingPalette: req.body 
+        }
+      })
+    ).pipe(
+      // simulate network latency 
+      delay(500)
+    ); 
   }
   return next(req);
 };

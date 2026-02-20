@@ -14,3 +14,8 @@ export const areAllPalettesLoaded = createSelector(
   selectPalettesState,
   (state) => state.allPalettesLoaded
 );
+
+export const selectPaletteById = (id: number) => createSelector(
+  selectPalettesState,
+  (state) => state.entities[id]
+);

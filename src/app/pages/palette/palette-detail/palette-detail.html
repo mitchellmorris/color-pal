@@ -1,1 +1,22 @@
-<p>palette-detail works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <p-fieldset legend="Details">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-12">
+      <div class="col-span-1">
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input id="name" type="text" formControlName="name" pInputText class="mt-1 block w-full" />
+      </div>
+
+    </div>
+  </p-fieldset>
+  <div class="flex mt-7">
+    <div class="flex grow justify-end gap-2">
+      <button 
+        pButton 
+        type="submit" 
+        label="Submit" 
+        class="p-button-primary"
+        [disabled]="form.invalid || form.pristine"
+      ></button>
+    </div>
+  </div>
+</form>
