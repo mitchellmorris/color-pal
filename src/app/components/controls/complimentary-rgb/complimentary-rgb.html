@@ -1,0 +1,51 @@
+<div class="flex items-center mt-1">
+  @for(color of value(); track $index) {
+  <button 
+    type="button"
+    pButton
+    [text]="true"
+    [rounded]="true" 
+    (mouseenter)="onMouseEnter($event, $index, op)" 
+    (mouseleave)="onMouseLeave(op)"
+    (click)="recalibrateColor($index)"
+    class="w-10 h-10 rounded-full inline-block mr-2" 
+    [style.background]="color | rgbToHex">
+    @if (activeColorIndex() === $index) {
+    <i class="pi pi-replay" [style.color]="'black'"></i>
+    }
+  </button>
+  }
+  <p-popover #op>
+    <div class="custom-menu" 
+      (mouseenter)="onPanelMouseEnter()" 
+      (mouseleave)="onMouseLeave(op)">
+      <div class="w-40">
+        <div class="text-lg mb-2" [style.color]="value()[activeColorIndex()] | rgbToHex">
+          Hex: {{ value()[activeColorIndex()] | rgbToHex }}
+        </div>
+        <div class="flex justify-between">
+          <p-button label="Copy"
+            (onClick)="copyHex(value()[activeColorIndex()])"
+            severity="secondary" 
+            variant="outlined" />
+          <p-button label="Delete"
+            (onClick)="removeColor(activeColorIndex())" 
+            severity="danger" 
+            variant="outlined" />
+        </div>
+      </div>
+    </div>
+  </p-popover>
+  @if (value().length < 5) {
+  <p-button icon="pi pi-plus" 
+    [rounded]="true" 
+    [outlined]="true"
+    (onClick)="addColor()"
+    class="mr-2" />
+  }
+  <p-button icon="pi pi-replay" 
+    [rounded]="true" 
+    [outlined]="true"
+    (onClick)="recalibratePalette()"
+    class="mr-2" />
+</div>

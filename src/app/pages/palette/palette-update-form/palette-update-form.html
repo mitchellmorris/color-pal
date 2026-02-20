@@ -5,7 +5,10 @@
         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
         <input id="name" type="text" formControlName="name" pInputText class="mt-1 block w-full" />
       </div>
-
+      <div class="col-span-1">
+        <label for="colors" class="block text-sm font-medium text-gray-700">Colors</label>
+        <app-complimentary-rgb formControlName="colors"></app-complimentary-rgb>
+      </div>
     </div>
   </p-fieldset>
   <div class="flex mt-7">

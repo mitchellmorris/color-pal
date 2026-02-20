@@ -10,10 +10,12 @@ import { PalettesEffects, palettesFeature } from '@state/palettes';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const API_URL = new InjectionToken<string>('api-url');
+export const CM_URL = new InjectionToken<string>('cm-url');
 
 export function provideCore() {
   return makeEnvironmentProviders([
     { provide: API_URL, useValue: env.apiUrl },
+    { provide: CM_URL, useValue: env.cmUrl },
     MessageService,
     ConfirmationService,
     provideHttpClient(

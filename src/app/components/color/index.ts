@@ -1,0 +1,1 @@
+export * from './rgb-to-hex/rgb-to-hex-pipe';

@@ -12,6 +12,7 @@ export class PallettesApi {
   constructor(
     private http: HttpClient
   ) {}
+  
   loadPalettes$(): Observable<PaletteModel[]> {
     return this.http.get<{ 
       existingPalettes: PaletteModel[], 
