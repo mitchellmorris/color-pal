@@ -7,7 +7,9 @@
       header
     </header>
     <main class="flex-1 p-4">
-      <router-outlet></router-outlet>
+      <app-loading-wrapper>
+        <router-outlet></router-outlet>
+      </app-loading-wrapper>
     </main>
   </div>
 </div>
