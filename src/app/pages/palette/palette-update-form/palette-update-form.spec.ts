@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaletteDetail } from './palette-detail';
+import { PaletteUpdateForm } from './palette-update-form';
 
-describe('PaletteDetail', () => {
-  let component: PaletteDetail;
-  let fixture: ComponentFixture<PaletteDetail>;
+describe('PaletteUpdateForm', () => {
+  let component: PaletteUpdateForm;
+  let fixture: ComponentFixture<PaletteUpdateForm>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PaletteDetail]
+      imports: [PaletteUpdateForm]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PaletteDetail);
+    fixture = TestBed.createComponent(PaletteUpdateForm);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

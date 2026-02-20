@@ -17,17 +17,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PalettesActions } from '@state/palettes/palettes.actions';
 
 @Component({
-  selector: 'app-palette-detail',
+  selector: 'app-palette-update-form',
   imports: [
     ReactiveFormsModule,
     InputTextModule,
     FieldsetModule,
     ButtonModule,
   ],
-  templateUrl: './palette-detail.html',
-  styleUrl: './palette-detail.css',
+  templateUrl: './palette-update-form.html',
+  styleUrl: './palette-update-form.css',
 })
-export class PaletteDetail {
+export class PaletteUpdateForm {
   private route = inject(ActivatedRoute);
   readonly store = inject(Store);
   readonly fb = inject(FormBuilder);
