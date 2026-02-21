@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { selectPaletteById } from '@state/palettes/palettes.selectors';
-import { filter, map, switchMap, tap } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { 
   FormBuilder, 
@@ -15,6 +15,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
 import { PalettesActions } from '@state/palettes/palettes.actions';
 import { ComplimentaryRgb } from '@components/controls';
+import { PaletteModel } from '@types';
 
 @Component({
   selector: 'app-palette-update-form',
@@ -30,15 +31,17 @@ import { ComplimentaryRgb } from '@components/controls';
 })
 export class PaletteUpdateForm {
   private route = inject(ActivatedRoute);
-  readonly store = inject(Store);
-  readonly fb = inject(FormBuilder);
+  private store = inject(Store);
+  private fb = inject(FormBuilder);
   paletteId = signal<number | null>(null);
+  initialValue = signal<Partial<PaletteModel> | null>(null);
+
   palette$ = this.route.paramMap.pipe(
     map(params => Number(params.get('paletteId'))),
     filter(id => id !== null),
     tap(id => this.paletteId.set(id)),
     switchMap(id => this.store.select(selectPaletteById(id!))),
-    takeUntilDestroyed(),
+    take(1),
   );
   form: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -47,12 +50,18 @@ export class PaletteUpdateForm {
   constructor() {
     this.palette$.subscribe(palette => {
       if (!!palette) {
-        this.form.patchValue({
-          name: palette.name,
-          colors: palette.colors,
-        });
+        this.initialValue.set(palette);
+        this.form.patchValue(palette);
       }
     });
+  }
+
+  cancel() {
+    if (!!this.initialValue()) {
+      this.form.reset(this.initialValue());
+    } else {
+      this.form.reset();
+    }
   }
 
   submit() {

@@ -12,11 +12,19 @@
     </div>
   </p-fieldset>
   <div class="flex mt-7">
+    <div class="flex grow justify-start gap-2">
+      <p-button 
+        type="button" 
+        label="Cancel" 
+        (onClick)="cancel()"
+        variant="outlined"
+      />
+    </div>
     <div class="flex grow justify-end gap-2">
       <button 
         pButton 
         type="submit" 
-        label="Submit" 
+        label="Save" 
         class="p-button-primary"
         [disabled]="form.invalid || form.pristine"
       ></button>
