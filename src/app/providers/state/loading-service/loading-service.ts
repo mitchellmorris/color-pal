@@ -1,18 +1,36 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { 
+  GuardsCheckEnd,
+  NavigationCancel,
+  NavigationEnd, 
+  NavigationError,
+  Router 
+} from '@angular/router';
+import { distinctUntilChanged, filter, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingService {
-  readonly router = inject(Router);
+  private readonly router = inject(Router);
+
   loading$ = this.router.events.pipe(
     filter(
-      (event): event is NavigationStart | NavigationEnd =>
-        event instanceof NavigationStart ||
-        event instanceof NavigationEnd
+      (event) =>
+        event instanceof GuardsCheckEnd ||
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
     ),
-    map(event => event instanceof NavigationStart)
+    map(event => {
+      // Start loading ONLY after guards have finished successfully
+      if (event instanceof GuardsCheckEnd) {
+        // true if guards passed (or no guards) so loading should start
+        return event.shouldActivate; 
+      }
+      // Stop loading for any completion/failure event
+      return false;
+    }),
+    distinctUntilChanged()
   );
 }

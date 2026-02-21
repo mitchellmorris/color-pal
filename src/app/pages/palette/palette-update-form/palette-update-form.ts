@@ -15,6 +15,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PalettesActions } from '@state/palettes/palettes.actions';
 import { ComplimentaryRgb } from '@components/controls';
 import { PaletteModel } from '@types';
+import { Actions, ofType } from '@ngrx/effects';
+import { MessageService } from 'primeng/api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-palette-update-form',
@@ -32,6 +35,8 @@ export class PaletteUpdateForm {
   private readonly route = inject(ActivatedRoute);
   private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
+  private readonly actions$ = inject(Actions);
+  private readonly messageService = inject(MessageService);
   
   paletteId = signal<number | null>(null);
   initialValue = signal<Partial<PaletteModel> | null>(null);
@@ -60,6 +65,30 @@ export class PaletteUpdateForm {
         this.form.patchValue(palette);
       }
     });
+    this.actions$.pipe(
+      ofType(PalettesActions.updatePaletteSuccess),
+      // We want this to remain active until the component is destroyed, 
+      // as the user might save multiple times without leaving the page
+      takeUntilDestroyed()
+    ).subscribe(() => {
+      this.initialValue.set(this.form.value);
+      this.form.reset(this.form.value);
+      this.messageService.add({ 
+        severity: 'success', 
+        summary: 'Palette Updated', 
+        detail: 'The palette has been successfully updated.' 
+      });
+    });
+  }
+
+  hasUnsavedChanges(): boolean {
+    if (!this.initialValue()) {
+      return false;
+    }
+    const currentValue = this.form.value;
+    const initialValue = this.initialValue();
+    return currentValue.name !== initialValue!.name || 
+           JSON.stringify(currentValue.colors) !== JSON.stringify(initialValue!.colors);
   }
 
   cancel() {
@@ -75,9 +104,12 @@ export class PaletteUpdateForm {
       this.form.markAllAsTouched();
       return;
     }
-    this.store.dispatch(PalettesActions.updatePalette({ palette: {
-      id: this.paletteId(),
-      ...this.form.value
-    }}));
+    this.store.dispatch(PalettesActions.updatePalette({ 
+      palette: {
+        id: this.paletteId(),
+        ...this.form.value
+      }
+  }));
   }
 }
+
