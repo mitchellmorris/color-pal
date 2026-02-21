@@ -20,10 +20,15 @@
       (mouseenter)="onPanelMouseEnter()" 
       (mouseleave)="onMouseLeave(op)">
       <div class="w-40">
-        <div class="text-lg mb-2" [style.color]="value()[activeColorIndex()] | rgbToHex">
-          Hex: {{ value()[activeColorIndex()] | rgbToHex }}
+        @if (activeColorIndex() >= 0) {
+        <div class="flex gap-3 w-fulltext-lg mb-4" [style.color]="value()[activeColorIndex()] | rgbToHex">
+          <p-colorpicker format="rgb"
+            [(ngModel)]="colorRGB"
+            (onChange)="changeColor($event)" 
+            class="ml-1"/> 
+          <div>Hex: {{ value()[activeColorIndex()] | rgbToHex }}</div>
         </div>
-        <div class="flex justify-between">
+        <div class="flex justify-between w-full">
           <p-button label="Copy"
             (onClick)="copyHex(value()[activeColorIndex()])"
             severity="secondary" 
@@ -33,6 +38,7 @@
             severity="danger" 
             variant="outlined" />
         </div>
+        }
       </div>
     </div>
   </p-popover>

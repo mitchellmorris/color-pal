@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { selectPaletteById } from '@state/palettes/palettes.selectors';
 import { filter, map, switchMap, take, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { 
   FormBuilder, 
   FormGroup, 
@@ -30,23 +29,30 @@ import { PaletteModel } from '@types';
   styleUrl: './palette-update-form.css',
 })
 export class PaletteUpdateForm {
-  private route = inject(ActivatedRoute);
-  private store = inject(Store);
-  private fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
+  private readonly store = inject(Store);
+  private readonly fb = inject(FormBuilder);
+  
   paletteId = signal<number | null>(null);
   initialValue = signal<Partial<PaletteModel> | null>(null);
 
   palette$ = this.route.paramMap.pipe(
     map(params => Number(params.get('paletteId'))),
-    filter(id => id !== null),
-    tap(id => this.paletteId.set(id)),
+    filter(id => !!id),
+    // We want to get the palette data from the store
     switchMap(id => this.store.select(selectPaletteById(id!))),
+    // Side effect to set the paletteId signal, 
+    // which we will need when we submit the form
+    // wait until we get the palette data before setting the paletteId,
+    tap(palette => this.paletteId.set(palette?.id ?? null)),
     take(1),
   );
+
   form: FormGroup = this.fb.group({
     name: ['', Validators.required],
     colors: [[], Validators.required],
   });
+
   constructor() {
     this.palette$.subscribe(palette => {
       if (!!palette) {

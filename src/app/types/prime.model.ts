@@ -1,0 +1,1 @@
+export type RGBStructuredModel = { r: number; g: number; b: number };
