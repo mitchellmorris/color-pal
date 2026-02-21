@@ -1,10 +1,35 @@
 <div class="min-h-screen flex">
   <aside class="hidden lg:flex lg:w-70 justify-center border-r border-surface">
-    sidebar
+    <app-sidebar></app-sidebar>
   </aside>
+  <p-drawer
+    [(visible)]="hasMobileSb"
+    [closable]="true"
+    [showCloseIcon]="true"
+    styleClass="!w-70"
+  >
+    <app-sidebar></app-sidebar>
+  </p-drawer>
   <div class="flex-1 flex flex-col">
     <header class="h-16 border-b border-surface flex items-center px-4">
-      header
+      <div class="flex w-1/2 justify-start gap-2">
+        <p-button 
+          icon="pi pi-bars" 
+          [rounded]="true" 
+          [text]="true" 
+          class="lg:hidden mr-3" 
+          (click)="hasMobileSb.set(true)" />
+        <div class="flex items-center text-xl font-semibold">
+           Color<span class="text-primary">Pal</span>
+        </div>
+      </div>
+      <div class="flex grow justify-end gap-2">
+        <p-button 
+          [icon]="colorMode.darkMode ? 'pi pi-sun' : 'pi pi-moon'" 
+          [rounded]="true" 
+          [text]="true" 
+          (click)="colorMode.toggle()" />
+      </div>
     </header>
     <main class="flex-1 p-4">
       <app-loading-wrapper>
@@ -13,3 +38,5 @@
     </main>
   </div>
 </div>
+<p-toast />
+<p-confirmdialog />
