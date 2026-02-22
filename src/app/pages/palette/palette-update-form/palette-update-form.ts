@@ -41,6 +41,7 @@ export class PaletteUpdateForm {
   
   paletteId = signal<number | null>(null);
   initialValue = signal<Partial<PaletteModel> | null>(null);
+  isSubmitting = signal(false);
 
   palette$ = this.route.paramMap.pipe(
     map(params => Number(params.get('paletteId'))),
@@ -61,8 +62,9 @@ export class PaletteUpdateForm {
   constructor() {
     this.palette$.subscribe(palette => {
       if (!!palette) {
-        this.initialValue.set(palette);
-        this.form.patchValue(palette);
+        const { name, colors } = palette;
+        this.initialValue.set({ name, colors });
+        this.form.patchValue({ name, colors });
       } else {
         // If we can't find the palette, navigate to a 404 page
         // without changing the URL (skipLocationChange) 
@@ -74,25 +76,28 @@ export class PaletteUpdateForm {
       // We want this to remain active until the component is destroyed, 
       // as the user might save multiple times without leaving the page
       takeUntilDestroyed()
-    ).subscribe(() => {
-      this.initialValue.set(this.form.value);
-      this.form.reset(this.form.value);
-      this.messageService.add({ 
-        severity: 'success', 
-        summary: 'Palette Updated', 
-        detail: 'The palette has been successfully updated.' 
-      });
+    ).subscribe({
+      next: () => {
+        this.initialValue.set(this.form.value);
+        this.form.markAsPristine();
+        this.isSubmitting.set(false);
+        this.messageService.add({ 
+          severity: 'success', 
+          summary: 'Palette Updated', 
+          detail: 'The palette has been successfully updated.' 
+        });
+      },
+      error: () => {
+        // The error message is already handled in the API service
+        // so we don't need to show another message here.
+        this.isSubmitting.set(false);
+      }
     });
   }
 
   hasUnsavedChanges(): boolean {
-    if (!this.initialValue()) {
-      return false;
-    }
-    const currentValue = this.form.value;
-    const initialValue = this.initialValue();
-    return currentValue.name !== initialValue!.name || 
-           JSON.stringify(currentValue.colors) !== JSON.stringify(initialValue!.colors);
+    if (!this.initialValue()) return false;
+    return JSON.stringify(this.form.value) !== JSON.stringify(this.initialValue());
   }
 
   cancel() {
@@ -108,6 +113,7 @@ export class PaletteUpdateForm {
       this.form.markAllAsTouched();
       return;
     }
+    this.isSubmitting.set(true);
     this.store.dispatch(PalettesActions.updatePalette({ 
       palette: {
         id: this.paletteId(),

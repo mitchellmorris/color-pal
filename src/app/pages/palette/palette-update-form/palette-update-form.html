@@ -36,7 +36,7 @@
         type="submit" 
         label="Save" 
         class="p-button-primary"
-        [disabled]="form.invalid || form.pristine"
+        [disabled]="isSubmitting() || form.invalid || form.pristine"
       ></button>
     </div>
   </div>
