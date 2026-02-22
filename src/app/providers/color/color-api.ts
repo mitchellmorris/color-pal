@@ -14,9 +14,6 @@ export class ColorApi {
   private readonly cmUrl = inject(CM_URL);
   
   getColorSuggestions$(colors: RGBArrayModel): Observable<RGBArrayModel> {
-    // If we send fewer than 5 colors, 
-    // this will return fewer suggestions.
-    const maxColors = colors.length < 5 ? colors.length : 5;
     return this.http.post<{ result: RGBArrayModel }>(`${this.cmUrl}/`, { 
       input: [...colors],
       model: 'default',

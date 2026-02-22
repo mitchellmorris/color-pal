@@ -3,15 +3,16 @@ import { PaletteModel } from '@types';
 import { delay, of } from 'rxjs';
 
 export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
+  // Mock data for palettes
   const mockPalettes: PaletteModel[] = [
     {
       id: 123,
-      name: 'Palette One',
+      name: 'Color Palette One',
       colors: [[44,43,44],[90,83,82]]
     },
     {
       id: 456,
-      name: 'Palette Two',
+      name: 'Color Palette Two',
       colors: [[255,255,0],[255,0,255],[0,255,255]]
     }
   ];

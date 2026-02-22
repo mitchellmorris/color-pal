@@ -7,12 +7,9 @@ import { RGBModel } from '@types';
 })
 export class RgbToHexPipe implements PipeTransform {
   private colorService = inject(ColorService);
-  transform(value: RGBModel, ...args: unknown[]): unknown {
-    if (!value || value.length !== 3) {
-      return null;
-    }
-    const [r, g, b] = value;
-    return this.colorService.rgbToHex([r, g, b]);
+  transform(value: RGBModel): string | null {
+    if (!value || value.length !== 3) return null;
+    return this.colorService.rgbToHex(value);
   }
 
 }

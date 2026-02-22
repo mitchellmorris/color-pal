@@ -11,6 +11,7 @@ export const palettesResolver: ResolveFn<boolean> = (route, state) => {
     switchMap(allLoaded => {
       if (!allLoaded) {
         store.dispatch(PalettesActions.loadPalettes());
+        // Wait for palettes to load before resolving
         return store.pipe(
           select(areAllPalettesLoaded),
           filter(loaded => loaded),

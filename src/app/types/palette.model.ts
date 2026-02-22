@@ -1,7 +1,10 @@
+export type RGBModel = [number, number, number];
+export type RGBArrayModel = RGBModel[];
+
 export interface PaletteModel {
   id: number;
   name: string;
-  colors: number[][];
+  colors: RGBArrayModel;
 }
 
 export interface PalettesStateModel {

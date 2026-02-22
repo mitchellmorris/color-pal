@@ -2,25 +2,25 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { API_URL } from '@providers/core';
 import { PaletteModel } from '@types';
+import { MessageService } from 'primeng/api';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PallettesApi {
-  private apiUrl = inject(API_URL);
-
-  constructor(
-    private http: HttpClient
-  ) {}
+  private readonly apiUrl = inject(API_URL);
+  private readonly http = inject(HttpClient);
+  private readonly messageService = inject(MessageService);
   
   loadPalettes$(): Observable<PaletteModel[]> {
     return this.http.get<{ 
       existingPalettes: PaletteModel[], 
+      // Include any additional properties that might be returned by the API
       [key: string]: any 
     }>(`${this.apiUrl}/palettes`).pipe(
       map(response => response.existingPalettes),
       catchError(error => {
-        console.error('Error loading palettes:', error);
+        
         return of([]); // Return an empty array on error
       })
     );
@@ -32,7 +32,11 @@ export class PallettesApi {
      }>(`${this.apiUrl}/palette/${palette.id}`, palette).pipe(
       map(response => response.existingPalette),
       catchError(error => {
-        console.error('Error saving palette:', error);
+        this.messageService.add({
+          severity:'error', 
+          summary: 'Error!', 
+          detail: 'Failed to update palette. Please try again later.'
+        });
         throw error; // Rethrow the error to be handled by the caller
       })
     );

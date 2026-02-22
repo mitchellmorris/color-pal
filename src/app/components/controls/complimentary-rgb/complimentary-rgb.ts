@@ -128,12 +128,11 @@ export class ComplimentaryRgb {
   recalibratePalette(): void {
     this.markAsTouched();
     this.colorApi.getColorSuggestions$(this.value()).subscribe((newColors) => {
-      this.value.set(
-        // The API returns a new set of colors (typically 5) based on the current palette,
-        // but we want to keep the same number of colors as before, 
-        // so we splice the new colors array to match the length of the current value array
-        newColors.splice(0, this.value().length)
-      );
+      // The API returns a new set of colors (typically 5) based on the current palette,
+      // but we want to keep the same number of colors as before, 
+      // so we splice the new colors array to match the length of the current value array
+      newColors.splice(this.value().length);
+      this.value.set(newColors);
       this.onChange(newColors);
     });
   }

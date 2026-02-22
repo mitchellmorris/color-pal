@@ -31,6 +31,7 @@ export class LoadingService {
       // Stop loading for any completion/failure event
       return false;
     }),
+    // Only emit when loading state changes to prevent flickering
     distinctUntilChanged()
   );
 }

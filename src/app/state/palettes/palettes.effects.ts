@@ -29,10 +29,12 @@ export class PalettesEffects {
       exhaustMap(action =>
         this.palettesApi.updatePalette$(action.palette).pipe(
           map(updatedPalette => PalettesActions.updatePaletteSuccess({ palette: updatedPalette })),
-          // catchError(error => {
-          //   console.error('Error updating palette:', error);
-          //   return EMPTY; // Handle error appropriately, e.g., dispatch a failure action
-          // })
+          catchError(error => {
+            // We just return an empty observable here 
+            // since the error is already handled in the API service with a message to the user.
+            // EMPTY is used to indicate that the effect has completed without dispatching a new action.
+            return EMPTY;
+          })
         )
       )
     );

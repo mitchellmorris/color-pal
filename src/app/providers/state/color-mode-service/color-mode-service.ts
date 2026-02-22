@@ -4,13 +4,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ColorModeService {
-  darkMode: boolean = false;
+
+  darkMode: boolean = true;
   init() {
     const darkMode = localStorage.getItem('dark_mode');
-    this.darkMode = darkMode !== null;
+    const element = document.querySelector('html');
+    const isDark = element!.classList.contains('dark');
+    this.darkMode = darkMode !== null || isDark;
     if (this.darkMode) {
-      const element = document.querySelector('html');
       element!.classList.add('app-dark');
+      localStorage.setItem('dark_mode', 'on');
+    } else {
+      element!.classList.remove('app-dark');
+      localStorage.removeItem('dark_mode');
     }
   }
   toggle() {

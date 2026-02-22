@@ -25,7 +25,6 @@ export const reducer = createReducer(
     return adapter.setAll(action.data, { ...state, allPalettesLoaded: true });
   }),
   on(PalettesActions.updatePaletteSuccess, (state, action) => {
-    console.log('Reducer received updated palette:', typeof action.palette.id);
     return adapter.updateOne(
       { id: action.palette.id, changes: action.palette },
       state

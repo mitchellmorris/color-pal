@@ -14,6 +14,6 @@ import { PaletteRow } from '@components';
   styleUrl: './palette-list.css',
 })
 export class PaletteList {
-  readonly store = inject(Store);
+  private readonly store = inject(Store);
   palettes = this.store.selectSignal(selectAllPalettes);
 }

@@ -9,6 +9,4 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './palettes.html',
   styleUrl: './palettes.css',
 })
-export class Palettes {
-
-}
+export class Palettes {}
