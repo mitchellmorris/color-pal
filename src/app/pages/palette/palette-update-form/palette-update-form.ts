@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { selectPaletteById } from '@state/palettes/palettes.selectors';
 import { filter, map, switchMap, take, tap } from 'rxjs';
 import { 
@@ -33,6 +33,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class PaletteUpdateForm {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
   private readonly actions$ = inject(Actions);
@@ -43,7 +44,6 @@ export class PaletteUpdateForm {
 
   palette$ = this.route.paramMap.pipe(
     map(params => Number(params.get('paletteId'))),
-    filter(id => !!id),
     // We want to get the palette data from the store
     switchMap(id => this.store.select(selectPaletteById(id!))),
     // Side effect to set the paletteId signal, 
@@ -63,6 +63,10 @@ export class PaletteUpdateForm {
       if (!!palette) {
         this.initialValue.set(palette);
         this.form.patchValue(palette);
+      } else {
+        // If we can't find the palette, navigate to a 404 page
+        // without changing the URL (skipLocationChange) 
+        this.router.navigate(['/404'], { skipLocationChange: true });
       }
     });
     this.actions$.pipe(
