@@ -3,3 +3,61 @@
 @import "tailwindcss";
 @plugin "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
+h1,
+h2,
+h3,
+p,
+ul,
+pre {
+  margin-bottom: calc(var(--spacing) * 4);
+}
+
+p, ul {
+  font-size: var(--text-base);
+}
+
+p {
+  line-height: var(--text-lg--line-height);
+}
+
+h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-thin);
+}
+
+h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-light);
+}
+
+h3 {
+  font-size: var(--text-xl);
+}
+
+ul {
+  padding-left: calc(var(--spacing) * 5);
+  list-style: disc;
+  display: grid;
+  gap: calc(var(--spacing) * 2);
+}
+
+
+code {
+  background-color: var(--color-gray-800);
+  padding: calc(var(--spacing) * 1) calc(var(--spacing) * 1);
+  border-radius: var(--radius-sm);
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+}
+
+pre {
+  background-color: var(--color-gray-700);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  overflow: auto;
+}
+
+pre code {
+  border-radius: 0;
+  background-color: transparent;
+  padding: 0;
+}

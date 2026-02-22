@@ -1,6 +1,6 @@
 # ColorPal
 
-This project was completed as part of a take-home coding challenge for a company I interviewed with. Through this implementation, I aimed to demonstrate not only technical proficiency, but also deliberate architectural choices and thoughtful attention to user experience.
+This project was completed as part of a take-home coding challenge for a company I am interviewing with. Through this implementation, I aimed to demonstrate not only technical proficiency, but also deliberate architectural choices and thoughtful attention to user experience.
 
 Specifically, I focused on showcasing my ability to:
 
