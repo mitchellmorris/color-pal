@@ -17,5 +17,10 @@ export const routes: Routes = [
     resolve: {
       palettes: palettesResolver
     }
+  },
+  // The Wildcard Route (Must be last!)
+  { 
+    path: '**', 
+    loadComponent: () => import('./pages/page-not-found/page-not-found').then(m => m.PageNotFound) 
   }
 ];
