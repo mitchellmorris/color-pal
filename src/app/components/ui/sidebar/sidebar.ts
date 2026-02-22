@@ -16,5 +16,10 @@ export class Sidebar {
       icon: 'pi pi-th-large',
       routerLink: ['/'],
     },
+    {
+      label: 'Read Me',
+      icon: 'pi pi-info-circle',
+      routerLink: ['/readme'],
+    },
   ];
 }

@@ -18,6 +18,10 @@ export const routes: Routes = [
       palettes: palettesResolver
     }
   },
+  {
+    path: 'readme',
+    loadComponent: () => import('./pages/read-me/read-me').then(m => m.ReadMe),
+  },
   // The Wildcard Route (Must be last!)
   { 
     path: '**', 

@@ -1,5 +1,6 @@
 export const environment = {
     apiUrl: '//api.colorpal.com',
     cmUrl: '//colormind.io/api',
-    mockApi: false
+    ghUrl: '//github.com/mitchellmorris/color-pal',
+    useMockApi: false
 };

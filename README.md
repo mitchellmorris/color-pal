@@ -1,8 +1,48 @@
 # ColorPal
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+This project was completed as part of a take-home coding challenge for a company I interviewed with. Through this implementation, I aimed to demonstrate not only technical proficiency, but also deliberate architectural choices and thoughtful attention to user experience.
 
-## Development server
+Specifically, I focused on showcasing my ability to:
+
+- Design a clean, intuitive UI with clear interaction patterns
+- Structure a scalable Angular application using modern patterns and best practices
+- Manage data flow in a predictable and maintainable way
+- Apply reactive programming principles with RxJS (stream creation, transformation, composition, and cleanup)
+- Establish sensible state management and UI feedback patterns
+
+Beyond simply meeting functional requirements, my goal was to illustrate how I approach problem-solving: balancing simplicity, maintainability, and extensibility while aligning closely with the provided evaluation criteria.
+
+### Evaluation Criteria
+
+- Keep the application small, focused, and coherent
+- Maintain clear component boundaries and separation of concerns
+- Properly handle loading, empty, and error states
+- Write readable, maintainable, idiomatic Angular and TypeScript
+- Apply reasonable styling and layout to create a polished user experience
+- Organize code in a clean and understandable directory structure
+
+### Architectural Assumptions & Decisions
+
+- I chose to use NgRx for state management to model predictable, centralized state transitions and explicit data flow. While the application could have been implemented with services alone, NgRx provided clearer separation of concerns and made state mutations more transparent and testable.
+- I used PrimeNG alongside Tailwind CSS as a UI foundation. PrimeNG accelerated component-level UI development, while Tailwind allowed for precise layout control and consistent visual refinement without excessive custom CSS.
+- To power the color refinement logic, I integrated the [Colormind API](http://colormind.io/api-access/), discovered through the [Free APIs](https://free-apis.github.io/#/) directory. 
+- I implemented an Angular HTTP interceptor to simulate backend functionality for retrieving and persisting palettes.
+
+### What's the idea about?
+
+For this assessment, I built an application that provides subtle enhancements to an existing color palette. Rather than completely replacing the original colors, the app makes small adjustments to hue and saturation to generate refined, more visually appealing variations.
+
+Users can update an entire palette or modify individual swatches. The application also supports adding new colors and removing existing ones.
+
+## Running it locally
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1. Please also note that I used Node.js version 20.
+
+```bash
+npm install
+```
+
+### Development server
 
 To start a local development server, run:
 
@@ -10,54 +50,34 @@ To start a local development server, run:
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. 
 
-## Code scaffolding
+## Directory structure (within app)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Components (Reusable UI Building Blocks)
 
-```bash
-ng generate component component-name
-```
+This directory contains reusable, presentation-focused elements that can support any page or feature. While primarily Angular components, it may also include shared pipes and other UI utilities intended to be used across the application.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The goal here is to isolate composable, framework-level building blocks from route-specific logic.
 
-```bash
-ng generate --help
-```
+### Environments
 
-## Building
+This folder contains environment-specific configuration files used to differentiate local development and production builds. These configurations control values such as API endpoints and feature flags without affecting application logic.
 
-To build the project run:
+### Pages (Route-Level Components)
 
-```bash
-ng build
-```
+This directory contains components that are directly tied to application routes. These serve as feature entry points and orchestrate state, services, and reusable components to compose complete views.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Providers (Application-Level Services & Configuration)
 
-## Running unit tests
+This folder contains services and dependency providers that support the application globally.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+I also keep a centralized configuration file here (e.g., `core-providers`) to register foundational providers. While a larger application might segment providers further by domain or environment, I prefer starting with a consolidated core configuration to maintain clarity and reduce early complexity.
 
-```bash
-ng test
-```
+### State (NgRx)
 
-## Running end-to-end tests
+This directory contains all NgRx-related logic, including actions, reducers, selectors, and effects. Centralizing state management ensures predictable data flow and clear separation between UI and business logic.
 
-For end-to-end (e2e) testing, run:
+### Types
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
----
-https://free-apis.github.io/#/categories/Art%20&%20Design
-http://colormind.io/api-access/
+This folder contains shared TypeScript interfaces, models, and type definitions. Keeping types centralized promotes consistency across state, services, and components while improving maintainability and discoverability.

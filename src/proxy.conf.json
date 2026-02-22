@@ -7,5 +7,14 @@
     "pathRewrite": {
       "^/api": ""
     }
+  },
+  "/repo": {
+    "target": "https://raw.githubusercontent.com/mitchellmorris/color-pal",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/repo": ""
+    }
   }
 }
