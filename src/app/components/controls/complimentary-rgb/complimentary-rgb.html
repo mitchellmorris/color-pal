@@ -1,15 +1,16 @@
-<div class="flex items-center mt-1">
+<div class="flex items-center justify-center md:justify-start mt-1">
   @for(color of value(); track $index) {
-  <button 
-    type="button"
+  <button type="button"
     pButton
     [text]="true"
     [rounded]="true" 
-    (mouseenter)="onMouseEnter($event, $index, op)" 
-    (mouseleave)="onMouseLeave(op)"
+    (mouseenter)="onMouseEnter($event, $index)" 
+    (mouseleave)="onMouseLeave()"
     (click)="recalibrateColor($index)"
     class="w-10 h-10 rounded-full inline-block mr-2" 
-    [style.background]="color | rgbToHex">
+    [style.background]="color | rgbToHex"
+    pTooltip="{{ tipText()['recalibColor'] }}"
+    tooltipPosition="top">
     @if (activeColorIndex() === $index) {
     <i class="pi pi-replay" [style.color]="'black'"></i>
     }
@@ -18,15 +19,16 @@
   <p-popover #op>
     <div class="custom-menu" 
       (mouseenter)="onPanelMouseEnter()" 
-      (mouseleave)="onMouseLeave(op)">
+      (mouseleave)="onMouseLeave()">
       <div class="w-40">
-        @if (activeColorIndex() >= 0) {
         <div class="flex gap-3 w-fulltext-lg mb-4" [style.color]="value()[activeColorIndex()] | rgbToHex">
+          @if (activeColorIndex() >= 0) {
           <p-colorpicker format="rgb"
             [(ngModel)]="colorRGB"
             (onChange)="changeColor($event)" 
             class="ml-1"/> 
           <div>Hex: {{ value()[activeColorIndex()] | rgbToHex }}</div>
+          }
         </div>
         <div class="flex justify-between w-full">
           <p-button label="Copy"
@@ -38,20 +40,25 @@
             severity="danger" 
             variant="outlined" />
         </div>
-        }
       </div>
     </div>
   </p-popover>
   @if (value().length < 5) {
-  <p-button icon="pi pi-plus" 
+  <p-button icon="pi pi-plus"
+    pTooltip="{{ tipText()['add'] }}" 
+    tooltipPosition="top"
     [rounded]="true" 
     [outlined]="true"
     (onClick)="addColor()"
     class="mr-2" />
   }
+  @if (value().length > 0) {
   <p-button icon="pi pi-replay" 
+    pTooltip="{{ tipText()['recalibPalette'] }}"
+    tooltipPosition="top"
     [rounded]="true" 
     [outlined]="true"
     (onClick)="recalibratePalette()"
     class="mr-2" />
+  }
 </div>

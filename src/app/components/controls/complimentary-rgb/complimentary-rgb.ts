@@ -1,13 +1,14 @@
-import { Component, effect, forwardRef, inject, model, signal } from '@angular/core';
+import { Component, effect, forwardRef, inject, model, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RgbToHexPipe } from '@components/color/rgb-to-hex/rgb-to-hex-pipe';
 import { ColorApi } from '@providers';
 import { ColorService } from '@providers';
 import { RGBArrayModel, RGBModel, RGBStructuredModel } from '@types';
 import { ButtonModule } from 'primeng/button';
-import { PopoverModule } from 'primeng/popover';
+import { Popover, PopoverModule } from 'primeng/popover';
 import { ColorPickerChangeEvent, ColorPickerModule } from 'primeng/colorpicker';
 import { MessageService } from 'primeng/api';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-complimentary-rgb',
@@ -18,7 +19,8 @@ import { MessageService } from 'primeng/api';
     ButtonModule,
     PopoverModule,
     RgbToHexPipe,
-    ColorPickerModule
+    ColorPickerModule,
+    TooltipModule,
   ],
   providers: [
     {
@@ -38,7 +40,8 @@ export class ComplimentaryRgb {
   private readonly colorApi = inject(ColorApi);
   private readonly colorService = inject(ColorService);
 
-  hidePopOvrTmr: number | undefined;
+  hidePopovrTmr: number | undefined;
+  popover = viewChild<Popover>('op');
   activeColorIndex = signal<number>(-1);
   // This model is used for the color picker, 
   // which expects an object with r, g, b properties
@@ -46,6 +49,11 @@ export class ComplimentaryRgb {
   // This is the main value of the component, an array of RGB colors
   // primarily used in conjuction with requests to the ColorMind API
   value = signal<RGBArrayModel>([[255, 255, 255]]);
+  tipText = signal<{ [key: string]: string }>({
+    add: 'Add a new color to the palette based on the current colors',
+    recalibPalette: 'Get a new set of colors based on the current palette',
+    recalibColor: 'Get a new color based on the current color and the rest of the palette',
+  });
 
   private onChange = (value: RGBArrayModel) => {};
   private onTouched = () => {};
@@ -64,21 +72,11 @@ export class ComplimentaryRgb {
       }
     });
   }
-  // This method is called when the color picker value changes
-  // It updates the corresponding color in the value array and notifies Angular forms of the change
-  changeColor($event: ColorPickerChangeEvent) {
-    const value = $event.value as RGBStructuredModel;
-    const newValue = [...this.value()];
-    const index = this.activeColorIndex();
-    newValue[index] = [value.r, value.g, value.b];
-    this.value.set(newValue);
-    this.onChange(newValue);
-  }
   // This method is called when the user hovers over a color swatch
-  onMouseEnter($event: MouseEvent, $index: number, panel: any) {
-    clearTimeout(this.hidePopOvrTmr);
+  onMouseEnter($event: MouseEvent, $index: number) {
+    clearTimeout(this.hidePopovrTmr);
     // Immediately hide the panel to reset its position if it's already open
-    panel.hide(); 
+    this.popover()?.hide(); 
     // Reset the active color index to ensure the color picker closes 
     // before reopening with the new color, 
     // preventing it from getting stuck if the user quickly moves between swatches
@@ -88,24 +86,36 @@ export class ComplimentaryRgb {
     // allowing the current panel.hide() to take effect and reset the position
     setTimeout(() => {
       this.activeColorIndex.set($index);
-      panel.show($event);
+      this.popover()?.show($event);
     });
   }
   // This method is called when the user moves the mouse away from a color swatch or the panel itself
   // It sets a timer to hide the panel after a short delay, 
   // allowing the user to move to the panel without it disappearing immediately
-  onMouseLeave(panel: any) {
+  onMouseLeave() {
     // Wait 300ms before hiding to give the user time to move to the panel
-    this.hidePopOvrTmr = setTimeout(() => {
+    this.hidePopovrTmr = setTimeout(() => {
       this.activeColorIndex.set(-1);
-      panel.hide();
+      this.popover()?.hide();
     }, 300);
   }
   // If the user enters the panel, cancel the hide timer
   onPanelMouseEnter() {
-    if (this.hidePopOvrTmr) {
-      clearTimeout(this.hidePopOvrTmr);
+    if (this.hidePopovrTmr) {
+      clearTimeout(this.hidePopovrTmr);
     }
+  }
+  // This method is called when the color picker value changes
+  // It updates the corresponding color in the value array 
+  // and notifies Angular forms of the change
+  changeColor($event: ColorPickerChangeEvent) {
+    const value = $event.value as RGBStructuredModel;
+    const newValue = [...this.value()];
+    const index = this.activeColorIndex();
+    newValue[index] = [value.r, value.g, value.b];
+    this.popover()?.hide();
+    this.value.set(newValue);
+    this.onChange(newValue);
   }
 
   addColor(): void {
@@ -174,8 +184,14 @@ export class ComplimentaryRgb {
     const newColors = [...this.value()];
     newColors.splice(index, 1);
     this.activeColorIndex.set(-1);
+    this.popover()?.hide();
     this.value.set(newColors);
     this.onChange(newColors);
+    this.messageService.add({
+      severity:'info', 
+      summary: 'Removed!', 
+      detail: 'Color removed from palette'
+    });
   }
   /****** Core "Bridge" Methods 👇 ******/ 
   // This method is an "Inbound" lane
