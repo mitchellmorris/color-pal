@@ -133,8 +133,8 @@ export class ComplimentaryRgb {
     // and add the last (new) color to the value array
     this.colorApi.getColorSuggestions$(this.value()).subscribe((newColors) => {
       // The API returns an all new set of colors, 
-      // but we only want to add the last color that was suggested
-      const newColor = newColors.pop();
+      // but we only want to add the next color by index that was suggested
+      const newColor = newColors[this.value().length];
       this.value.set([...this.value(), newColor!]);
       this.onChange(this.value());
     });

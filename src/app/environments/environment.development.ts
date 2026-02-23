@@ -4,5 +4,5 @@ export const environment = {
     cmUrl: '/api',
     ghUrl: '/repo',
     useMockApi: true,
-    populateMockApi: true,
+    populateMockApi: false,
 };
