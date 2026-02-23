@@ -4,6 +4,9 @@ import { delay, of } from 'rxjs';
 
 export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
   // Mock data for palettes
+  // Not using but leaving here for reference 
+  // in case we want to use it in the future 
+  // when we implement the actual API calls in the effects.
   const mockPalettes: PaletteModel[] = [
     {
       id: 123,
@@ -21,12 +24,12 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
       new HttpResponse({
         status: 200,
         body: {
-          existingPalettes: mockPalettes
+          existingPalettes: []
         }
       })
     ).pipe(
       // simulate network latency
-      delay(800)
+      delay(500)
     );
   }
   if (req.url.endsWith('/palette') && req.method === 'POST') {

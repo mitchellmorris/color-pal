@@ -61,3 +61,7 @@ pre code {
   background-color: transparent;
   padding: 0;
 }
+
+i.pi-primary {
+  color: var(--p-primary-400);
+}

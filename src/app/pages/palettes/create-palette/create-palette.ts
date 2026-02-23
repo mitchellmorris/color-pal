@@ -1,5 +1,6 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { PaletteForm } from '@components/forms/palette-form/palette-form';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -19,6 +20,7 @@ export class CreatePalette {
   private readonly actions$ = inject(Actions);
   private readonly store = inject(Store);
   private readonly messageService = inject(MessageService);
+  protected readonly router = inject(Router);
   // Reference the child component
   @ViewChild('paletteForm') childForm!: PaletteForm;
 
@@ -33,10 +35,14 @@ export class CreatePalette {
     ).subscribe({
       next: () => {
         this.isProcessed.set(true);
-        this.messageService.add({ 
-          severity: 'success', 
-          summary: 'Palette Created', 
-          detail: 'The palette has been successfully created.' 
+        this.router.navigate(['/'], {
+          state: {
+            message: { 
+              severity: 'success', 
+              summary: 'Palette Created', 
+              detail: 'The palette has been successfully created.' 
+            }
+          }
         });
       },
       error: () => {
