@@ -1,44 +1,6 @@
-@let nameField = form.get('name');
-@let colorsField = form.get('colors');
 <div class="text-3xl mb-4 font-thin">Update Color Palette</div>
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <p-fieldset legend="Details">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-12">
-      <div class="col-span-1">
-        <label for="name" class="text-sm font-medium text-gray-400 font-thin">Name</label>
-        <input id="name" type="text" formControlName="name" pInputText class="mt-1 block w-full" />
-        @if (nameField?.invalid && nameField?.touched) { 
-        <div class="text-red-500 text-sm mt-1">Name is required</div>
-        }
-      </div>
-      <div class="col-span-1">
-        <label for="colors" class="hidden md:block text-sm font-medium text-gray-400 font-thin">Colors</label>
-        <app-complimentary-rgb formControlName="colors"></app-complimentary-rgb>
-        @if (colorsField?.invalid && colorsField?.touched) { 
-        <div class="text-red-500 text-sm mt-1">At least one color is required</div>
-        }
-      </div>
-    </div>
-  </p-fieldset>
-  <div class="flex mt-7">
-    <div class="flex grow justify-start gap-2">
-      @if (form.dirty) {
-      <p-button 
-        type="button" 
-        label="Cancel" 
-        (onClick)="cancel()"
-        variant="outlined"
-      />
-      }
-    </div>
-    <div class="flex grow justify-end gap-2">
-      <button 
-        pButton 
-        type="submit" 
-        label="Save" 
-        class="p-button-primary"
-        [disabled]="isSubmitting() || form.invalid || form.pristine"
-      ></button>
-    </div>
-  </div>
-</form>
+<app-palette-form #paletteForm 
+  [(isProcessed)]="isProcessed"
+  [(initialValue)]="initialValue"
+  (onSave)="submit($event)"
+  ></app-palette-form>
