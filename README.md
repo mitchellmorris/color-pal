@@ -52,6 +52,12 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. 
 
+## Known Limitations
+
+- When adding a new color to an existing palette, the generated color often trends toward a red hue. This appears to stem from the behavior of the Colormind API. Based on observed responses, when submitting a partial palette (e.g., three defined colors), the next generated color frequently resolves to a red-toned variation.
+
+  While this behavior was not deeply reverse-engineered for this challenge, it appears to be related to how the API predicts missing palette values rather than an issue in the application logic.
+
 ## Directory structure (within app)
 
 ### Components (Reusable UI Building Blocks)

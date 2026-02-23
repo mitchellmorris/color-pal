@@ -3,13 +3,17 @@
 @import "tailwindcss";
 @plugin "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
-h1,
-h2,
-h3,
-p,
-ul,
-pre {
+h1, h2, h3, h4,
+p, ul, pre {
   margin-bottom: calc(var(--spacing) * 4);
+}
+
+h1, h2 {
+  font-weight: var(--font-weight-thin);
+}
+
+h3, h4 {
+  font-weight: var(--font-weight-medium);
 }
 
 p, ul {
@@ -22,16 +26,18 @@ p {
 
 h1 {
   font-size: var(--text-3xl);
-  font-weight: var(--font-weight-thin);
 }
 
 h2 {
   font-size: var(--text-2xl);
-  font-weight: var(--font-weight-light);
 }
 
 h3 {
   font-size: var(--text-xl);
+}
+
+h4 {
+  font-size: var(--text-lg);
 }
 
 ul {
@@ -41,12 +47,12 @@ ul {
   gap: calc(var(--spacing) * 2);
 }
 
-
 code {
   background-color: var(--color-gray-800);
   padding: calc(var(--spacing) * 1) calc(var(--spacing) * 1);
   border-radius: var(--radius-sm);
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  color: var(--color-gray-300);
 }
 
 pre {
@@ -61,7 +67,7 @@ pre code {
   background-color: transparent;
   padding: 0;
 }
-
-i.pi-primary {
+/* PrimeUI overrides and customizations */
+.pi-primary {
   color: var(--p-primary-400);
 }

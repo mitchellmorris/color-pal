@@ -4,5 +4,6 @@ export const environment = {
     cmUrl: '/api',
     ghUrl: '/repo',
     useMockApi: true,
-    populateMockApi: false,
+    // Helpful for working on the update palette form without needing to populate the mock API with palettes first.
+    populateMockApi: true,
 };

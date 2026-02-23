@@ -8,12 +8,24 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
     {
       id: 123,
       name: 'Color Palette One',
-      colors: [[44,43,44],[90,83,82]]
+      colors: [
+        [12,70,30],
+        [239,123,27],
+        [56,239,246],
+        [249,201,186],
+        [255,66,36]
+      ]
     },
     {
       id: 456,
       name: 'Color Palette Two',
-      colors: [[255,255,0],[255,0,255],[0,255,255]]
+      colors: [
+        [254,250,28],
+        [252,203,255],
+        [24,237,236],
+        [214,26,34],
+        [232,16,17]
+      ]
     }
   ];
   if (req.url.endsWith('/palettes') && req.method === 'GET') {
