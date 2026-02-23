@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, exhaustMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { PalettesActions } from './palettes.actions';
-import { PallettesApi } from '@providers/palettes/pallettes-api';
+import { PallettesApi } from '@providers/api/palettes/pallettes-api';
 
 
 @Injectable()
