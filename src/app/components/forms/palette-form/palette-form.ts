@@ -54,6 +54,12 @@ export class PaletteForm {
         this.isSubmitting.set(false);
       }
     });
+    effect(() => {
+      const initialValue = this.initialValue();
+      if (!!initialValue) {
+        this.form.patchValue(initialValue);
+      }
+    });
   }
 
   cancel() {

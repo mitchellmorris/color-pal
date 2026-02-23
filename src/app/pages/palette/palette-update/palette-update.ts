@@ -1,47 +1,35 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { selectPaletteById } from '@state/palettes/palettes.selectors';
-import { filter, map, switchMap, take, tap } from 'rxjs';
-import { 
-  FormBuilder, 
-  FormGroup, 
-  ReactiveFormsModule, 
-  Validators 
-} from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { FieldsetModule } from 'primeng/fieldset';
-import { InputTextModule } from 'primeng/inputtext';
+import { map, switchMap, take, tap } from 'rxjs';
 import { PalettesActions } from '@state/palettes/palettes.actions';
-import { ComplimentaryRgb } from '@components/controls';
-import { PaletteModel } from '@types';
+import { PaletteFormModel } from '@types';
 import { Actions, ofType } from '@ngrx/effects';
 import { MessageService } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { PaletteForm } from '@components/forms/palette-form/palette-form';
 
 @Component({
-  selector: 'app-palette-update-form',
+  selector: 'app-palette-update',
   imports: [
-    ReactiveFormsModule,
-    InputTextModule,
-    FieldsetModule,
-    ButtonModule,
-    ComplimentaryRgb,
+    PaletteForm
   ],
-  templateUrl: './palette-update-form.html',
-  styleUrl: './palette-update-form.css',
+  templateUrl: './palette-update.html',
+  styleUrl: './palette-update.css',
 })
-export class PaletteUpdateForm {
+export class PaletteUpdate {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
-  private readonly fb = inject(FormBuilder);
   private readonly actions$ = inject(Actions);
   private readonly messageService = inject(MessageService);
+  // Reference the child component
+  @ViewChild('paletteForm') childForm!: PaletteForm;
   
   paletteId = signal<number | null>(null);
-  initialValue = signal<Partial<PaletteModel> | null>(null);
-  isSubmitting = signal(false);
+  initialValue = signal<PaletteFormModel | null>(null);
+  isProcessed = signal(false);
 
   palette$ = this.route.paramMap.pipe(
     map(params => Number(params.get('paletteId'))),
@@ -54,17 +42,11 @@ export class PaletteUpdateForm {
     take(1),
   );
 
-  form: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    colors: [[], Validators.required],
-  });
-
   constructor() {
     this.palette$.subscribe(palette => {
       if (!!palette) {
         const { name, colors } = palette;
         this.initialValue.set({ name, colors });
-        this.form.patchValue({ name, colors });
       } else {
         // If we can't find the palette, navigate to a 404 page
         // without changing the URL (skipLocationChange) 
@@ -78,9 +60,7 @@ export class PaletteUpdateForm {
       takeUntilDestroyed()
     ).subscribe({
       next: () => {
-        this.initialValue.set(this.form.value);
-        this.form.markAsPristine();
-        this.isSubmitting.set(false);
+        this.isProcessed.set(true);
         this.messageService.add({ 
           severity: 'success', 
           summary: 'Palette Updated', 
@@ -90,34 +70,24 @@ export class PaletteUpdateForm {
       error: () => {
         // The error message is already handled in the API service
         // so we don't need to show another message here.
-        this.isSubmitting.set(false);
+        this.isProcessed.set(true);
       }
     });
   }
 
   hasUnsavedChanges(): boolean {
-    if (!this.initialValue()) return false;
-    return JSON.stringify(this.form.value) !== JSON.stringify(this.initialValue());
+    if (!this.childForm) return false;
+    const formValue = this.childForm.form.value;
+    const initialValue = this.childForm.initialValue();
+    return JSON.stringify(formValue) !== JSON.stringify(initialValue);
   }
 
-  cancel() {
-    if (!!this.initialValue()) {
-      this.form.reset(this.initialValue());
-    } else {
-      this.form.reset();
-    }
-  }
-
-  submit() {
-    if (this.form.invalid || !this.paletteId()) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    this.isSubmitting.set(true);
+  submit(formValue: PaletteFormModel) {
+    if (!this.paletteId()) return;
     this.store.dispatch(PalettesActions.updatePalette({ 
       palette: {
-        id: this.paletteId(),
-        ...this.form.value
+        id: this.paletteId()!,
+        ...formValue
       }
     }));
   }

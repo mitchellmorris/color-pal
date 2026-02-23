@@ -1,0 +1,6 @@
+<div class="text-3xl mb-4 font-thin">Update Color Palette</div>
+<app-palette-form #paletteForm 
+  [(isProcessed)]="isProcessed"
+  [(initialValue)]="initialValue"
+  (onSave)="submit($event)"
+  ></app-palette-form>
