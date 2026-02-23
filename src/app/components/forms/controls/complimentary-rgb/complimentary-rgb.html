@@ -20,7 +20,7 @@
     <div class="custom-menu" 
       (mouseenter)="onPanelMouseEnter()" 
       (mouseleave)="onMouseLeave()">
-      <div class="w-40">
+      <div class="w-45">
         <div class="flex gap-3 w-fulltext-lg mb-4" [style.color]="value()[activeColorIndex()] | rgbToHex">
           @if (activeColorIndex() >= 0) {
           <p-colorpicker format="rgb"
@@ -32,10 +32,14 @@
         </div>
         <div class="flex justify-between w-full">
           <p-button label="Copy"
+            size="small"
+            icon="pi pi-copy"
             (onClick)="copyHex(value()[activeColorIndex()])"
             severity="secondary" 
             variant="outlined" />
           <p-button label="Delete"
+            size="small"
+            icon="pi pi-trash"
             (onClick)="removeColor(activeColorIndex())" 
             severity="danger" 
             variant="outlined" />
@@ -53,7 +57,7 @@
     class="mr-2" />
   }
   @if (value().length > 0) {
-  <p-button icon="pi pi-replay" 
+  <p-button icon="pi pi-replay"
     pTooltip="{{ tipText()['recalibPalette'] }}"
     tooltipPosition="top"
     [rounded]="true" 

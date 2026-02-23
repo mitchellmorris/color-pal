@@ -114,6 +114,7 @@ export class ComplimentaryRgb {
     const index = this.activeColorIndex();
     newValue[index] = [value.r, value.g, value.b];
     this.popover()?.hide();
+    this.activeColorIndex.set(-1);
     this.value.set(newValue);
     this.onChange(newValue);
   }
