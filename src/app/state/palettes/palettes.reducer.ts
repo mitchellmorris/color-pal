@@ -34,7 +34,6 @@ export const reducer = createReducer(
     );
   }),
   on(PalettesActions.deletePaletteSuccess, (state, action) => {
-    console.log('Reducer received deletePaletteSuccess action with id:', action.id);
     return adapter.removeOne(action.id, state);
   }),
 );
