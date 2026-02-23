@@ -2,4 +2,4 @@ export * from './palettes';
 export * from './core';
 export * from './mock';
 export * from './state';
-export * from './color';
+export * from './api/color';

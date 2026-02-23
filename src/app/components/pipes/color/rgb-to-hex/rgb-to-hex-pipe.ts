@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { ColorService } from '@providers/color/color-service';
+import { ColorService } from '@providers/api/color/color-service';
 import { RGBModel } from '@types';
 
 @Pipe({
