@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaletteModel } from '@types';
 import { ButtonModule } from 'primeng/button';
-import { RgbToHexPipe } from '@components/color';
+import { RgbToHexPipe } from '@components/pipes/color';
 import { Store } from '@ngrx/store';
 import { PalettesActions } from '@state/palettes';
 import { ConfirmationService } from 'primeng/api';

@@ -1,6 +1,6 @@
 import { Component, effect, forwardRef, inject, model, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RgbToHexPipe } from '@components/color/rgb-to-hex/rgb-to-hex-pipe';
+import { RgbToHexPipe } from '@components/pipes/color/rgb-to-hex/rgb-to-hex-pipe';
 import { ColorApi } from '@providers';
 import { ColorService } from '@providers';
 import { RGBArrayModel, RGBModel, RGBStructuredModel } from '@types';
