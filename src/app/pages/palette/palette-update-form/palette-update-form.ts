@@ -109,7 +109,7 @@ export class PaletteUpdateForm {
   }
 
   submit() {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.paletteId()) {
       this.form.markAllAsTouched();
       return;
     }
@@ -119,7 +119,7 @@ export class PaletteUpdateForm {
         id: this.paletteId(),
         ...this.form.value
       }
-  }));
+    }));
   }
 }
 

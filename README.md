@@ -78,6 +78,24 @@ I also keep a centralized configuration file here (e.g., `core-providers`) to re
 
 This directory contains all NgRx-related logic, including actions, reducers, selectors, and effects. Centralizing state management ensures predictable data flow and clear separation between UI and business logic.
 
+#### Note on State Organization
+
+In addition to the centralized NgRx state located under `features/.../state`, there are other `state` directories nested within areas such as `components/state` or `providers/state`.
+
+These directories do **not** contain NgRx store logic. Instead, they manage localized UI state concerns, such as:
+
+- Theme preferences (e.g., dark/light mode)
+- Loading indicators
+- Transient UI flags
+- View-specific state not requiring global persistence
+
+This distinction reflects a deliberate separation between:
+
+- **Application State** (managed via NgRx and representing shared, business-level data)
+- **UI State** (localized, presentation-focused, and often ephemeral)
+
+Keeping these concerns separate helps prevent overloading the global store with purely visual or short-lived state while still maintaining predictable patterns where shared data is involved.
+
 ### Types
 
 This folder contains shared TypeScript interfaces, models, and type definitions. Keeping types centralized promotes consistency across state, services, and components while improving maintainability and discoverability.

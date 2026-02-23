@@ -121,6 +121,14 @@ export class ComplimentaryRgb {
   addColor(): void {
     this.markAsTouched();
     if (this.value().length >= 5) return;
+    if (this.value().length === 0) {
+      // If there are no colors then create a random color to add to the palette
+      const rand255 = () => Math.floor(Math.random() * 256);
+      const randomColor: RGBModel = [rand255(), rand255(), rand255()];
+      this.value.set([randomColor]);
+      this.onChange(this.value());
+      return;
+    }
     // Request color suggestions from the API based on the current colors,
     // and add the last (new) color to the value array
     this.colorApi.getColorSuggestions$(this.value()).subscribe((newColors) => {
@@ -128,7 +136,7 @@ export class ComplimentaryRgb {
       // but we only want to add the last color that was suggested
       const newColor = newColors.pop();
       this.value.set([...this.value(), newColor!]);
-      this.onChange(newColors);
+      this.onChange(this.value());
     });
   }
   // This method is called when the user clicks the "Recalibrate Palette" button
