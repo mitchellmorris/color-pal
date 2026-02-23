@@ -3,7 +3,7 @@ import { pendingChangesGuard } from '@providers/state';
 export const paletteRoutes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./palette-update-form/palette-update-form').then(m => m.PaletteUpdateForm),
+    loadComponent: () => import('./palette-update/palette-update').then(m => m.PaletteUpdate),
     canDeactivate: [pendingChangesGuard],
   }
 ]

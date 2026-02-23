@@ -13,14 +13,14 @@ import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
 import { PalettesActions } from '@state/palettes/palettes.actions';
-import { ComplimentaryRgb } from '@components/controls';
+import { ComplimentaryRgb } from '@components';
 import { PaletteModel } from '@types';
 import { Actions, ofType } from '@ngrx/effects';
 import { MessageService } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-palette-update-form',
+  selector: 'app-palette-update',
   imports: [
     ReactiveFormsModule,
     InputTextModule,
@@ -28,10 +28,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ButtonModule,
     ComplimentaryRgb,
   ],
-  templateUrl: './palette-update-form.html',
-  styleUrl: './palette-update-form.css',
+  templateUrl: './palette-update.html',
+  styleUrl: './palette-update.css',
 })
-export class PaletteUpdateForm {
+export class PaletteUpdate {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly store = inject(Store);
