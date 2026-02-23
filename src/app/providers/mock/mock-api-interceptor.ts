@@ -60,5 +60,21 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
       delay(500)
     ); 
   }
+  if (req.url.match(/\/palette\/\d+/) && req.method === 'DELETE') {
+    const match = req.url.match(/\/palette\/(\d+)/);
+    const id = match ? match[1] : null;
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          // Echo back the deleted palette ID
+          deletedId: id 
+        }
+      })
+    ).pipe(
+      // simulate network latency 
+      delay(500)
+    ); 
+  }
   return next(req);
 };

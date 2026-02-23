@@ -7,7 +7,8 @@
     <div class="w-10 h-10 rounded-full inline-block mr-2" [style.background]="color | rgbToHex"></div>
     }
   </div>
-  <div class="flex w-full md:w-1/4 justify-center sm:justify-end">
+  <div class="flex w-full md:w-1/4 justify-center sm:justify-end gap-2">
+    <p-button icon="pi pi-trash" [rounded]="true" severity="danger" [outlined]="true" (onClick)="deletePalette()" />
     <p-button label="View" icon="pi pi-eye" [rounded]="true" (onClick)="router.navigate(['palette', palette().id])" />
   </div>
 </div>

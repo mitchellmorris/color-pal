@@ -17,6 +17,12 @@ export class Sidebar {
       routerLink: ['/'],
     },
     {
+      label: 'Create Palette',
+      icon: 'pi pi-plus-circle',
+      routerLink: ['/create-palette'],
+    },
+    { separator: true },
+    {
       label: 'Read Me',
       icon: 'pi pi-info-circle',
       routerLink: ['/readme'],

@@ -11,5 +11,7 @@ export const PalettesActions = createActionGroup({
     'Create Palette Success': props<{ palette: PaletteModel }>(),
     'Update Palette': props<{ palette: PaletteModel }>(),
     'Update Palette Success': props<{ palette: PaletteModel }>(),
+    'Delete Palette': props<{ id: number }>(),
+    'Delete Palette Success': props<{ id: number }>(),
   }
 });

@@ -32,7 +32,11 @@ export const reducer = createReducer(
       { id: action.palette.id, changes: action.palette },
       state
     );
-  })
+  }),
+  on(PalettesActions.deletePaletteSuccess, (state, action) => {
+    console.log('Reducer received deletePaletteSuccess action with id:', action.id);
+    return adapter.removeOne(action.id, state);
+  }),
 );
 
 export const palettesFeature = createFeature({

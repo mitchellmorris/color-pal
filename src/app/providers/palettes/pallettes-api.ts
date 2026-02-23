@@ -59,4 +59,21 @@ export class PallettesApi {
       })
     );
   };
+
+  deletePalette$(id: number): Observable<number> {
+    return this.http.delete<{ 
+      deletedId: number,
+      [key: string]: any
+     }>(`${this.apiUrl}/palette/${id}`).pipe(
+      map(response => response.deletedId),
+      catchError(error => {
+        this.messageService.add({
+          severity:'error', 
+          summary: 'Error!', 
+          detail: 'Failed to delete palette. Please try again later.'
+        });
+        throw error; // Rethrow the error to be handled by the caller
+      })
+    );
+  };
 }
