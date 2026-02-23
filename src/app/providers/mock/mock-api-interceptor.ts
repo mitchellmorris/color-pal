@@ -1,12 +1,9 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { PaletteFormModel, PaletteModel } from '@types';
 import { delay, of } from 'rxjs';
+import { environment } from '@environment/environment';
 
 export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
-  // Mock data for palettes
-  // Not using but leaving here for reference 
-  // in case we want to use it in the future 
-  // when we implement the actual API calls in the effects.
   const mockPalettes: PaletteModel[] = [
     {
       id: 123,
@@ -24,7 +21,7 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
       new HttpResponse({
         status: 200,
         body: {
-          existingPalettes: []
+          existingPalettes: environment.populateMockApi ? mockPalettes : []
         }
       })
     ).pipe(

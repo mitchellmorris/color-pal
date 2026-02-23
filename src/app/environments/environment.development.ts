@@ -3,5 +3,6 @@ export const environment = {
     // Proxy to avoid CORS issues during development. 
     cmUrl: '/api',
     ghUrl: '/repo',
-    useMockApi: true
+    useMockApi: true,
+    populateMockApi: true,
 };
