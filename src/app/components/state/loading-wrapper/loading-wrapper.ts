@@ -8,6 +8,7 @@ import { LoadingService } from '@providers';
 })
 export class LoadingWrapper {
   private readonly loadingService = inject(LoadingService);
+  
   loadingText = input('Loading...');
   isLoading = signal(true);
 

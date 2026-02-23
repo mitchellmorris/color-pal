@@ -23,7 +23,9 @@ export class PaletteList implements OnInit {
   protected readonly router = inject(Router);
 
   palettes = this.store.selectSignal(selectAllPalettes);
+
   ngOnInit() {
+    // Check for any flash messages from the message forwarder and display them
     this.messageForwarder.flashMessage();
   }
 }

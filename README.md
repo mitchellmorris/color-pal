@@ -28,6 +28,12 @@ Beyond simply meeting functional requirements, my goal was to illustrate how I a
 - To power the color refinement logic, I integrated the [Colormind API](http://colormind.io/api-access/), discovered through the [Free APIs](https://free-apis.github.io/#/) directory. 
 - I implemented an Angular HTTP interceptor to simulate backend functionality for retrieving and persisting palettes.
 
+### Known Limitations
+
+- When adding a new color to an existing palette, the generated color often trends toward a red hue. This appears to stem from the behavior of the Colormind API. Based on observed responses, when submitting a partial palette (e.g., three defined colors), the next generated color frequently resolves to a red-toned variation.
+
+  While this behavior was not deeply reverse-engineered for this challenge, it appears to be related to how the API predicts missing palette values rather than an issue in the application logic.
+
 ### What's the idea about?
 
 For this assessment, I built an application that provides subtle enhancements to an existing color palette. Rather than completely replacing the original colors, the app makes small adjustments to hue and saturation to generate refined, more visually appealing variations.
@@ -51,12 +57,6 @@ ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. 
-
-## Known Limitations
-
-- When adding a new color to an existing palette, the generated color often trends toward a red hue. This appears to stem from the behavior of the Colormind API. Based on observed responses, when submitting a partial palette (e.g., three defined colors), the next generated color frequently resolves to a red-toned variation.
-
-  While this behavior was not deeply reverse-engineered for this challenge, it appears to be related to how the API predicts missing palette values rather than an issue in the application logic.
 
 ## Directory structure (within app)
 

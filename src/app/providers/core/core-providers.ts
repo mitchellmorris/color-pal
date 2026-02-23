@@ -21,6 +21,8 @@ export function provideCore() {
     { provide: GH_URL, useValue: env.ghUrl },
     MessageService,
     ConfirmationService,
+    // Only provide the mock API interceptor 
+    // if the mock API is enabled in the environment config.
     provideHttpClient(
       ...(
         env.useMockApi
@@ -33,6 +35,8 @@ export function provideCore() {
     provideState(palettesFeature),
     provideEffects(PalettesEffects),
     provideMarkdown(),
+    // Initialize the color mode service on app startup 
+    // to apply the user's preferred theme.
     provideAppInitializer(() => {
       const colorMode = inject(ColorModeService);
       colorMode.init();

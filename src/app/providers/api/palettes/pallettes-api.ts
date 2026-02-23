@@ -20,8 +20,12 @@ export class PallettesApi {
     }>(`${this.apiUrl}/palettes`).pipe(
       map(response => response.existingPalettes),
       catchError(error => {
-        
-        return of([]); // Return an empty array on error
+        this.messageService.add({
+          severity:'error', 
+          summary: 'Error!', 
+          detail: 'Failed to load palettes. Please try again later.'
+        });
+        throw error; // Rethrow the error to be handled by the caller
       })
     );
   };

@@ -5,5 +5,5 @@ export const environment = {
     ghUrl: '/repo',
     useMockApi: true,
     // Helpful for working on the update palette form without needing to populate the mock API with palettes first.
-    populateMockApi: true,
+    populateMockApi: false,
 };

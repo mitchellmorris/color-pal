@@ -1,8 +1,8 @@
 import { Component, effect, forwardRef, inject, model, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { RgbToHexPipe } from '@components/pipes/color/rgb-to-hex/rgb-to-hex-pipe';
-import { ColorApi } from '@providers';
-import { ColorService } from '@providers';
+import { RgbToHexPipe } from '@components/pipes/color';
+import { ColorApi } from '@providers/api';
+import { ColorService } from '@providers/misc/color/color-service';
 import { RGBArrayModel, RGBModel, RGBStructuredModel } from '@types';
 import { ButtonModule } from 'primeng/button';
 import { Popover, PopoverModule } from 'primeng/popover';

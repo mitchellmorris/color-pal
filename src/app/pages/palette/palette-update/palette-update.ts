@@ -24,7 +24,6 @@ export class PaletteUpdate {
   private readonly store = inject(Store);
   private readonly actions$ = inject(Actions);
   private readonly messageService = inject(MessageService);
-  // Reference the child component
   @ViewChild('paletteForm') childForm!: PaletteForm;
   
   paletteId = signal<number | null>(null);
@@ -46,6 +45,8 @@ export class PaletteUpdate {
     this.palette$.subscribe(palette => {
       if (!!palette) {
         const { name, colors } = palette;
+        // The child form listens for changes to the initialValue signal, 
+        // so we need to set it here to populate the form.
         this.initialValue.set({ name, colors });
       } else {
         // If we can't find the palette, navigate to a 404 page
@@ -74,17 +75,17 @@ export class PaletteUpdate {
       }
     });
   }
-
+  // Used as a bridge to the child form 
+  // for the pending changes guard
   hasUnsavedChanges(): boolean {
     if (!this.childForm) return false;
-    const isSubmitting = this.childForm.isSubmitting();
-    const formValue = this.childForm.form.value;
-    const initialValue = this.childForm.initialValue();
-    return !isSubmitting && JSON.stringify(formValue) !== JSON.stringify(initialValue);
+    return this.childForm.hasUnsavedChanges();
   }
 
   submit(formValue: PaletteFormModel) {
     if (!this.paletteId()) return;
+    // All validation is handled in the form
+    // so we can just dispatch the action.
     this.store.dispatch(PalettesActions.updatePalette({ 
       palette: {
         id: this.paletteId()!,

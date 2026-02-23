@@ -16,7 +16,7 @@ import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
 import { ComplimentaryRgb } from '@components/forms/controls';
-import { PaletteFormModel, PaletteModel } from '@types';
+import { PaletteFormModel } from '@types';
 
 @Component({
   selector: 'app-palette-form',
@@ -34,6 +34,7 @@ export class PaletteForm {
   private readonly fb = inject(FormBuilder);
 
   initialValue = model<PaletteFormModel | null>(null);
+  // Only the parent component will set this value, so we can assume it's required.
   isProcessed = model.required<boolean>();
   onSave = output<PaletteFormModel>();
 
@@ -46,8 +47,10 @@ export class PaletteForm {
 
   constructor() {
     effect(() => {
+      // Make a variable from the signal so that signals are easier to read and remove later
       const isProcessed = this.isProcessed();
-      if (isProcessed && this.isSubmitting()) {
+      const isSubmitting = this.isSubmitting();
+      if (isProcessed && isSubmitting) {
         this.initialValue.set(this.form.value);
         this.form.markAsPristine();
         this.isProcessed.set(false);
@@ -59,9 +62,20 @@ export class PaletteForm {
       if (!!initialValue) {
         this.form.patchValue(initialValue);
       } else {
+        // We want to make sure the initialValue is in sync
+        // mainly because the pending changes guard relies on it 
+        // to determine if there are changes or not.
         this.initialValue.set(this.form.value);
       }
     });
+  }
+
+
+  hasUnsavedChanges(): boolean {
+    const isSubmitting = this.isSubmitting();
+    const formValue = this.form.value;
+    const initialValue = this.initialValue();
+    return !isSubmitting && JSON.stringify(formValue) !== JSON.stringify(initialValue);
   }
 
   cancel() {

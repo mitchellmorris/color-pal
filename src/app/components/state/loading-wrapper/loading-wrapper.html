@@ -1,3 +1,9 @@
+<!--
+  This component is meant to be a simple wrapper 
+  for any content that needs to show a loading state.
+  This is typically used for resolvers that need to load data before the component can be shown.
+  I placed this in an @if block so that there is no residual content or component logic.
+-->
 @if (isLoading()) {
 <div class="flex h-full items-center justify-center">
     <div class="text-2xl mb-4 font-thin">{{ loadingText() }}</div>

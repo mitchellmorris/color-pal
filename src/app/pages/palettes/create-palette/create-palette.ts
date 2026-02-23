@@ -1,6 +1,5 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
 import { PaletteForm } from '@components/forms/palette-form/palette-form';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -47,16 +46,16 @@ export class CreatePalette {
       }
     });
   }
-
+  // Used as a bridge to the child form 
+  // for the pending changes guard
   hasUnsavedChanges(): boolean {
     if (!this.childForm) return false;
-    const isSubmitting = this.childForm.isSubmitting();
-    const formValue = this.childForm.form.value;
-    const initialValue = this.childForm.initialValue();
-    return !isSubmitting && JSON.stringify(formValue) !== JSON.stringify(initialValue);
+    return this.childForm.hasUnsavedChanges();
   }
 
   submit(formValue: PaletteFormModel) {
+    // All validation is handled in the form
+    // so we can just dispatch the action.
     this.store.dispatch(PalettesActions.createPalette({ palette: formValue }));
   }
 }
