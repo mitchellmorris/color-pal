@@ -1,14 +1,14 @@
 <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4">
   <div class="flex justify-center sm:justify-start w-full md:w-1/4">
-    <h3 class="text-xl">{{ palette().name }}</h3>
+    <div class="text-xl">{{ palette().name }}</div>
   </div>
   <div class="flex justify-center sm:justify-start w-full md:w-1/2">
     @for(color of palette().colors; track $index) {
     <div class="w-10 h-10 rounded-full inline-block mr-2" [style.background]="color | rgbToHex"></div>
     }
   </div>
-  <div class="flex w-full md:w-1/4 justify-center sm:justify-end gap-2">
+  <div class="flex w-full md:w-1/4 justify-center sm:justify-end gap-3">
     <p-button icon="pi pi-trash" [rounded]="true" severity="danger" [outlined]="true" (onClick)="deletePalette()" />
-    <p-button label="View" icon="pi pi-eye" [rounded]="true" (onClick)="router.navigate(['palette', palette().id])" />
+    <p-button label="Edit" icon="pi pi-palette" [rounded]="true" [outlined]="true" (onClick)="router.navigate(['palette', palette().id])" />
   </div>
 </div>
