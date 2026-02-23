@@ -3,5 +3,9 @@ export const palettesRoutes: Routes = [
   {
     path: '',
     loadComponent: () => import('./palette-list/palette-list').then(m => m.PaletteList)
-  }
+  },
+  {
+    path: 'create',
+    loadComponent: () => import('./create-palette/create-palette').then(m => m.CreatePalette)
+  },
 ]

@@ -1,0 +1,1 @@
+export * from './palette-form/palette-form';

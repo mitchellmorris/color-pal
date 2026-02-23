@@ -23,6 +23,23 @@ export class PalettesEffects {
     );
   });
 
+  createPalette$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PalettesActions.createPalette),
+      exhaustMap(action =>
+        this.palettesApi.createPalette$(action.palette).pipe(
+          map(createdPalette => PalettesActions.createPaletteSuccess({ palette: createdPalette })),
+          catchError(error => {
+            // We just return an empty observable here 
+            // since the error is already handled in the API service with a message to the user.
+            // EMPTY is used to indicate that the effect has completed without dispatching a new action.
+            return EMPTY;
+          })
+        )
+      )
+    );
+  });
+
   updatePalette$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PalettesActions.updatePalette),

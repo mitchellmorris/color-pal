@@ -1,5 +1,5 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
-import { PaletteModel } from '@types';
+import { PaletteFormModel, PaletteModel } from '@types';
 import { delay, of } from 'rxjs';
 
 export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
@@ -28,6 +28,23 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
       // simulate network latency
       delay(800)
     );
+  }
+  if (req.url.endsWith('/palette') && req.method === 'POST') {
+    return of(
+      new HttpResponse({
+        status: 200,
+        body: {
+          // Echo back the updated palette
+          newPalette: {
+            id: Math.floor(Math.random() * 1000) + 1, // Simulate ID generation
+            ...req.body as PaletteFormModel
+          }
+        }
+      })
+    ).pipe(
+      // simulate network latency 
+      delay(500)
+    ); 
   }
   if (req.url.match(/\/palette\/\d+/) && req.method === 'PUT') {
     return of(

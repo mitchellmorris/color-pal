@@ -24,6 +24,9 @@ export const reducer = createReducer(
   on(PalettesActions.loadPalettesSuccess, (state, action) => {
     return adapter.setAll(action.data, { ...state, allPalettesLoaded: true });
   }),
+  on(PalettesActions.createPaletteSuccess, (state, action) => {
+    return adapter.addOne(action.palette, state);
+  }),
   on(PalettesActions.updatePaletteSuccess, (state, action) => {
     return adapter.updateOne(
       { id: action.palette.id, changes: action.palette },

@@ -7,6 +7,8 @@ export interface PaletteModel {
   colors: RGBArrayModel;
 }
 
+export interface PaletteFormModel extends Omit<PaletteModel, 'id'> {}
+
 export interface PalettesStateModel {
   palette: PaletteModel | null;
   allPalettesLoaded: boolean;
