@@ -4,14 +4,14 @@
   <p-fieldset legend="Details">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-12">
       <div class="col-span-1">
-        <label for="name" class="text-sm font-medium text-gray-400 font-thin">Name</label>
+        <label for="name" class="text-sm text-gray-400 font-thin">Name</label>
         <input id="name" type="text" formControlName="name" pInputText class="mt-1 block w-full" />
         @if (nameField?.invalid && nameField?.touched) { 
         <div class="text-red-500 text-sm mt-1">Name is required</div>
         }
       </div>
-      <div class="col-span-1">
-        <label for="colors" class="hidden md:block text-sm font-medium text-gray-400 font-thin">Colors</label>
+      <div class="col-span-1 pt-1">
+        <label for="colors" class="hidden md:block text-sm text-gray-400 font-thin">Colors</label>
         <app-complimentary-rgb formControlName="colors"></app-complimentary-rgb>
         @if (colorsField?.invalid && colorsField?.touched) { 
         <div class="text-red-500 text-sm mt-1">At least one color is required</div>

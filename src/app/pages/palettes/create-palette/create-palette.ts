@@ -55,9 +55,10 @@ export class CreatePalette {
 
   hasUnsavedChanges(): boolean {
     if (!this.childForm) return false;
+    const isSubmitting = this.childForm.isSubmitting();
     const formValue = this.childForm.form.value;
     const initialValue = this.childForm.initialValue();
-    return JSON.stringify(formValue) !== JSON.stringify(initialValue);
+    return !isSubmitting && JSON.stringify(formValue) !== JSON.stringify(initialValue);
   }
 
   submit(formValue: PaletteFormModel) {
