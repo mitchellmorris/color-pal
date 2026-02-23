@@ -58,6 +58,8 @@ export class PaletteForm {
       const initialValue = this.initialValue();
       if (!!initialValue) {
         this.form.patchValue(initialValue);
+      } else {
+        this.initialValue.set(this.form.value);
       }
     });
   }
