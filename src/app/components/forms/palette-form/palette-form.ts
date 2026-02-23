@@ -15,7 +15,7 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputTextModule } from 'primeng/inputtext';
-import { ComplimentaryRgb } from '@components/controls';
+import { ComplimentaryRgb } from '@components/forms/controls';
 import { PaletteFormModel, PaletteModel } from '@types';
 
 @Component({
