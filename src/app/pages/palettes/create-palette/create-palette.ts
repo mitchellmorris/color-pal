@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { PaletteForm } from '@components/forms/palette-form/palette-form';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { MessageForwarderService } from '@providers/state/message-forwarder-service/message-forwarder-service';
 import { PalettesActions } from '@state/palettes';
-import { PaletteFormModel, PaletteModel } from '@types';
-import { MessageService } from 'primeng/api';
+import { PaletteFormModel } from '@types';
 
 @Component({
   selector: 'app-create-palette',
@@ -19,9 +19,8 @@ import { MessageService } from 'primeng/api';
 export class CreatePalette {
   private readonly actions$ = inject(Actions);
   private readonly store = inject(Store);
-  private readonly messageService = inject(MessageService);
-  protected readonly router = inject(Router);
-  // Reference the child component
+  private readonly messageForwarder = inject(MessageForwarderService);
+
   @ViewChild('paletteForm') childForm!: PaletteForm;
 
   isProcessed = signal(false);
@@ -35,14 +34,10 @@ export class CreatePalette {
     ).subscribe({
       next: () => {
         this.isProcessed.set(true);
-        this.router.navigate(['/'], {
-          state: {
-            message: { 
-              severity: 'success', 
-              summary: 'Palette Created', 
-              detail: 'The palette has been successfully created.' 
-            }
-          }
+        this.messageForwarder.navigateWithMessage(['/'], {
+          severity: 'success', 
+          summary: 'Palette Created', 
+          detail: 'The palette has been successfully created.' 
         });
       },
       error: () => {

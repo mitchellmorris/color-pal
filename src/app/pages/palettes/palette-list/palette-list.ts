@@ -5,7 +5,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { PaletteRow } from '@components';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { MessageForwarderService } from '@providers/state/message-forwarder-service/message-forwarder-service';
 
 @Component({
   selector: 'app-palette-list',
@@ -19,16 +19,11 @@ import { MessageService } from 'primeng/api';
 })
 export class PaletteList implements OnInit {
   private readonly store = inject(Store);
-  private readonly messageService = inject(MessageService);
+  private readonly messageForwarder = inject(MessageForwarderService);
   protected readonly router = inject(Router);
+
   palettes = this.store.selectSignal(selectAllPalettes);
   ngOnInit() {
-    const state = window.history.state;
-    if (state && 'message' in state) {
-      this.messageService.add(state['message']);
-      // Clear the message from state to prevent it from showing on reload
-      delete state['message'];
-      window.history.replaceState(state, '');
-    }
+    this.messageForwarder.flashMessage();
   }
 }
